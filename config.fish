@@ -27,10 +27,17 @@ alias gl='git log --pretty=oneline'
 
 alias efish='$EDITOR ~/.config/fish/config.fish'
 alias sfish='source ~/.config/fish/config.fish'
-alias config='cd ~/.config'
 alias stbytes='speedtest-cli --bytes'
 
 alias ..='cd ..'
+
+function config
+    cd ~/.config
+
+    if test $argv
+        cd $argv
+    end
+end
 
 function c
     gcc $argv
