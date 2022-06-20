@@ -32,10 +32,10 @@ alias stbytes='speedtest-cli --bytes'
 alias ..='cd ..'
 
 function config
-    cd ~/.config
-
     if test $argv
-        cd $argv
+        cd ~/.config/$argv
+    else
+        cd ~/.config
     end
 end
 
