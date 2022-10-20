@@ -1,5 +1,5 @@
 # Dependencies:
-# git, exa, batcat, speedtest-cli (python), gh-cli
+# git, exa, batcat, speedtest-cli (python), gh-cli, pandoc, eisvogel
 
 # Hide welcome message
 set fish_greeting
@@ -48,7 +48,7 @@ set -x HOME ~
 alias ls='exa --color=always --group-directories-first --icons'
 alias la='exa -a --color=always --group-directories-first --icons'
 alias ll='exa -l --color=always --group-directories-first --icons'
-alias lt='exa -T --color=always --group-directories-first --icons'
+alias lt='exa -T --color=always --group-directories-first --icons --ignore-glob="node_modules"'
 alias ldir='exa -d --color=always --group-directories-first --icons'
 
 alias cats='batcat'
@@ -64,6 +64,10 @@ alias gl='git log --pretty=oneline'
 alias efish='$EDITOR ~/.config/fish/config.fish'
 alias sfish='source ~/.config/fish/config.fish'
 alias stbytes='speedtest-cli --bytes'
+
+function pandocmd
+    pandoc $argv.md -o $argv.pdf --from markdown --template eisvogel --listings
+end
 
 alias ..='cd ..'
 
@@ -85,3 +89,5 @@ alias pc='cd /mnt/c/Users/Gargoth'
 function gh-starred
     gh api user/starred --template '{{range .}}{{.full_name|color "yellow"}} ({{timeago .updated_at}}){{"\n"}}{{end}}'
 end
+
+alias here='explorer.exe .'
