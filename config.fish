@@ -45,31 +45,28 @@ set -x CLICOLOR 1
 set -x HOME ~
 
 # Aliases
-alias ls='exa --color=always --group-directories-first --icons'
-alias la='exa -a --color=always --group-directories-first --icons'
-alias ll='exa -l --color=always --group-directories-first --icons'
-alias lt='exa -T --color=always --group-directories-first --icons --ignore-glob="node_modules"'
-alias ldir='exa -d --color=always --group-directories-first --icons'
-
-alias cats='batcat'
-
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gf='git fetch'
-alias gps='git push -u'
-alias gpl='git pull'
-alias gl='git log --pretty=oneline'
-
-alias efish='$EDITOR ~/.config/fish/config.fish'
-alias sfish='source ~/.config/fish/config.fish'
-alias stbytes='speedtest-cli --bytes'
+abbr --add ls 'exa --color=always --group-directories-first --icons'
+abbr --add la 'exa -a --color=always --group-directories-first --icons'
+abbr --add ll 'exa -l --color=always --group-directories-first --icons'
+abbr --add lt 'exa -T --color=always --group-directories-first --icons --ignore-glob="node_modules"'
+abbr --add ldir 'exa -d --color=always --group-directories-first --icons'
+abbr --add gs 'git status'
+abbr --add ga 'git add'
+abbr --add gc 'git commit'
+abbr --add gf 'git fetch'
+abbr --add gps 'git push -u'
+abbr --add gpl 'git pull'
+abbr --add gl 'git log --pretty=oneline'
+abbr --add efish '$EDITOR ~/.config/fish/config.fish'
+abbr --add sfish 'source ~/.config/fish/config.fish'
+abbr --add stbytes 'speedtest-cli --bytes'
+abbr --add .. 'cd ..'
+abbr --add ... 'cd ...'
+abbr --add .... 'cd ....'
 
 function pandocmd
     pandoc $argv.md -o $argv.pdf --from markdown --template eisvogel --listings
 end
-
-alias ..='cd ..'
 
 function config
     if test $argv
@@ -84,10 +81,9 @@ function c
     ./a.out
 end
 
-alias pc='cd /mnt/c/Users/Gargoth'
-
 function gh-starred
     gh api user/starred --template '{{range .}}{{.full_name|color "yellow"}} ({{timeago .updated_at}}){{"\n"}}{{end}}'
 end
 
-alias here='explorer.exe .'
+abbr --add WPc 'cd /mnt/c/Users/Gargoth'
+abbr --add WHere 'explorer.exe .'
