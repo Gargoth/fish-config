@@ -44,11 +44,38 @@ set -x EDITOR nvim
 set -x CLICOLOR 1
 set -x HOME ~
 
-# Aliases
+# Functions
+function config
+    if test $argv
+        cd ~/.config/$argv
+    else
+        cd ~/.config
+    end
+end
+
+function c
+    gcc $argv
+    ./a.out
+    rm ./a.out
+end
+
+function cpp
+    clang++ $argv
+    ./a.out
+    rm ./a.out
+end
+
+function gh-starred
+    gh api user/starred --template '{{range .}}{{.full_name|color "yellow"}} ({{timeago .updated_at}}){{"\n"}}{{end}}'
+end
+
+abbr --add gumcommit '~/.config/fish/scripts/gumcommit.sh'
+
+# Abbreviations
 abbr --add ls 'exa --color=always --group-directories-first --icons'
 abbr --add la 'exa -a --color=always --group-directories-first --icons'
 abbr --add ll 'exa -l --color=always --group-directories-first --icons'
-abbr --add lt 'exa -T --color=always --group-directories-first --icons --ignore-glob="node_modules"'
+abbr --add lt 'exa -T --color=always --group-directories-first --icons --ignore-glob="node_modules|venv"'
 abbr --add ldir 'exa -d --color=always --group-directories-first --icons'
 abbr --add gs 'git status'
 abbr --add ga 'git add'
@@ -64,26 +91,6 @@ abbr --add .. 'cd ..'
 abbr --add ... 'cd ...'
 abbr --add .... 'cd ....'
 
-function pandocmd
-    pandoc $argv.md -o $argv.pdf --from markdown --template eisvogel --listings
-end
-
-function config
-    if test $argv
-        cd ~/.config/$argv
-    else
-        cd ~/.config
-    end
-end
-
-function c
-    gcc $argv
-    ./a.out
-end
-
-function gh-starred
-    gh api user/starred --template '{{range .}}{{.full_name|color "yellow"}} ({{timeago .updated_at}}){{"\n"}}{{end}}'
-end
 
 abbr --add WPc 'cd /mnt/c/Users/Gargoth'
 abbr --add WHere 'explorer.exe .'
