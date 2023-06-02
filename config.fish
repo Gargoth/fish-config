@@ -91,8 +91,8 @@ abbr --add .... 'cd ....'
 switch (uname)
     # WSL
     case Linux
-        abbr --add WPc 'cd /mnt/c/Users/Gargoth'
-        abbr --add WHere 'explorer.exe .'
+        abbr --add pc 'cd /mnt/c/Users/Gargoth'
+        abbr --add here 'explorer.exe .'
         abbr --add bat 'batcat'
     # MacOs
     case Darwin
