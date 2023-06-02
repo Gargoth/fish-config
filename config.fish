@@ -69,8 +69,6 @@ function gh-starred
     gh api user/starred --template '{{range .}}{{.full_name|color "yellow"}} ({{timeago .updated_at}}){{"\n"}}{{end}}'
 end
 
-abbr --add gumcommit '~/.config/fish/scripts/gumcommit.sh'
-
 # Abbreviations
 abbr --add ls 'exa --color=always --group-directories-first --icons'
 abbr --add la 'exa -a --color=always --group-directories-first --icons'
@@ -81,16 +79,25 @@ abbr --add gs 'git status'
 abbr --add ga 'git add'
 abbr --add gc 'git commit'
 abbr --add gf 'git fetch'
-abbr --add gps 'git push -u'
+abbr --add gps 'git push'
 abbr --add gpl 'git pull'
 abbr --add gl 'git log --pretty=oneline'
 abbr --add efish '$EDITOR ~/.config/fish/config.fish'
 abbr --add sfish 'source ~/.config/fish/config.fish'
-abbr --add stbytes 'speedtest-cli --bytes'
 abbr --add .. 'cd ..'
 abbr --add ... 'cd ...'
 abbr --add .... 'cd ....'
 
+switch (uname)
+    # WSL
+    case Linux
+        abbr --add WPc 'cd /mnt/c/Users/Gargoth'
+        abbr --add WHere 'explorer.exe .'
+        abbr --add bat 'batcat'
+    # MacOs
+    case Darwin
+    case '*'
+end
 
-abbr --add WPc 'cd /mnt/c/Users/Gargoth'
-abbr --add WHere 'explorer.exe .'
+starship init fish | source
+
