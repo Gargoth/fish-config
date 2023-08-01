@@ -49,7 +49,15 @@ function config
     if test $argv
         cd ~/.config/$argv
     else
-        cd ~/.config
+        cd (ls -d ~/.config/*/ | fzf --preview 'exa -1 --color=always --group-directories-first --icons {}')
+    end
+end
+
+function econfig
+    if test $argv
+        $EDITOR ~/.config/$argv
+    else
+        cd (ls -d ~/.config/*/ | fzf --preview 'exa -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
     end
 end
 
@@ -57,7 +65,15 @@ function repos
     if test $argv
         cd ~/repos/$argv
     else
-        cd ~/repos
+        cd (ls -d ~/repos/*/ | fzf --preview 'exa -1 --color=always --group-directories-first --icons {}')
+    end
+end
+
+function erepos
+    if test $argv
+        $EDITOR ~/repos/$argv
+    else
+        cd (ls -d ~/repos/*/ | fzf --preview 'exa -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
     end
 end
 
@@ -101,13 +117,12 @@ abbr --add .... 'cd ....'
 switch (uname)
     # WSL
     case Linux
-        abbr --add pc 'cd /mnt/c/Users/Gargoth'
+        abbr --add pc 'cd /mnt/c/Users/Gargo'
         abbr --add here 'explorer.exe .'
-        abbr --add bat 'batcat'
+        abbr --add open 'wslview'
     # MacOs
     case Darwin
     case '*'
 end
 
 starship init fish | source
-
