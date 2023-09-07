@@ -1,5 +1,5 @@
 # Dependencies:
-# git, exa, batcat, speedtest-cli (python), gh-cli, pandoc, eisvogel
+# git, eza, batcat, speedtest-cli (python), gh-cli, pandoc, eisvogel
 
 # Hide welcome message
 set fish_greeting
@@ -49,7 +49,7 @@ function config
     if test $argv
         cd ~/.config/$argv
     else
-        cd (ls -d ~/.config/*/ | fzf --preview 'exa -1 --color=always --group-directories-first --icons {}')
+        cd (ls -d ~/.config/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}')
     end
 end
 
@@ -57,7 +57,7 @@ function econfig
     if test $argv
         $EDITOR ~/.config/$argv
     else
-        cd (ls -d ~/.config/*/ | fzf --preview 'exa -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
+        cd (ls -d ~/.config/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
     end
 end
 
@@ -65,7 +65,7 @@ function repos
     if test $argv
         cd ~/repos/$argv
     else
-        cd (ls -d ~/repos/*/ | fzf --preview 'exa -1 --color=always --group-directories-first --icons {}')
+        cd (ls -d ~/repos/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}')
     end
 end
 
@@ -73,7 +73,7 @@ function erepos
     if test $argv
         $EDITOR ~/repos/$argv
     else
-        cd (ls -d ~/repos/*/ | fzf --preview 'exa -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
+        cd (ls -d ~/repos/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
     end
 end
 
@@ -94,11 +94,11 @@ function gh-starred
 end
 
 # Abbreviations
-abbr --add ls 'exa --color=always --group-directories-first --icons'
-abbr --add la 'exa -a --color=always --group-directories-first --icons'
-abbr --add ll 'exa -l --color=always --group-directories-first --icons'
-abbr --add lt 'exa -T --color=always --group-directories-first --icons --ignore-glob="node_modules|venv"'
-abbr --add ldir 'exa -d --color=always --group-directories-first --icons'
+abbr --add ls 'eza --color=always --group-directories-first --icons'
+abbr --add la 'eza -a --color=always --group-directories-first --icons'
+abbr --add ll 'eza -l --color=always --group-directories-first --icons'
+abbr --add lt 'eza -T --color=always --group-directories-first --icons --ignore-glob="node_modules|venv"'
+abbr --add ldir 'eza -d --color=always --group-directories-first --icons'
 abbr --add gs 'git status'
 abbr --add ga 'git add'
 abbr --add gc 'git commit'
