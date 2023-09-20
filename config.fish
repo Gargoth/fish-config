@@ -45,6 +45,10 @@ set -x CLICOLOR 1
 set -x HOME ~
 
 # Functions
+function dfzf
+    cd (dirname (fzf))
+end
+
 function config
     if test $argv
         cd ~/.config/$argv
@@ -122,6 +126,7 @@ switch (uname)
         abbr --add open 'wslview'
     # MacOs
     case Darwin
+        abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
     case '*'
 end
 
