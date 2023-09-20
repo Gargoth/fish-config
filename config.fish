@@ -124,6 +124,7 @@ switch (uname)
         abbr --add pc 'cd /mnt/c/Users/Gargo'
         abbr --add here 'explorer.exe .'
         abbr --add open 'wslview'
+        abbr --add fd 'fdfind'
     # MacOs
     case Darwin
         abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
