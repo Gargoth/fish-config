@@ -111,7 +111,7 @@ abbr --add gps 'git push'
 abbr --add gpl 'git pull'
 abbr --add gd 'git diff'
 abbr --add gr 'git restore'
-abbr --add gl 'git log --pretty=oneline'
+abbr --add gl "git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all"
 abbr --add efish '$EDITOR ~/.config/fish/config.fish'
 abbr --add sfish 'source ~/.config/fish/config.fish'
 abbr --add .. 'cd ..'
@@ -128,6 +128,7 @@ switch (uname)
     # MacOs
     case Darwin
         abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
+        abbr --add sshpc 'ssh -t gargo@gargoth-acer \'ssh gargoth@localhost -p 2022\''
     case '*'
 end
 
