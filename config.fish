@@ -84,13 +84,16 @@ end
 function c
     gcc $argv
     ./a.out
-    rm ./a.out
+end
+
+function cthread
+    gcc $argv -lpthread
+    ./a.out
 end
 
 function cpp
     clang++ $argv
     ./a.out
-    rm ./a.out
 end
 
 function gh-starred
@@ -117,6 +120,8 @@ abbr --add sfish 'source ~/.config/fish/config.fish'
 abbr --add .. 'cd ..'
 abbr --add ... 'cd ...'
 abbr --add .... 'cd ....'
+
+abbr --add tz 'tectonic -Z shell-escape'
 
 switch (uname)
     # WSL
