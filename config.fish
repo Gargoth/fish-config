@@ -1,5 +1,33 @@
-# Dependencies:
-# git, eza, batcat, speedtest-cli (python), gh-cli, pandoc, eisvogel
+# bootstrap fisher
+if not type -q fisher
+  curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+end
+
+# bootstrap nvm
+if not type -q nvm
+  fisher install jorgebucaran/nvm.fish
+end
+
+# Identify package manager
+if type -q dnf
+  set -l pkgmanager dnf
+end
+
+if type -q apt
+  set -l pkgmanager dnf
+end
+
+# bootstrap rustup
+if not type -q cargo
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && fish_add_path ~/.cargo/bin
+end
+
+# TODO: Bootstrap cmake for eza
+# TODO: Bootstrap gh-cli
+
+if not type -q eza
+  cargo install --locked eza
+end
 
 # Hide welcome message
 set fish_greeting
@@ -137,4 +165,18 @@ switch (uname)
     case '*'
 end
 
-starship init fish | source
+if type -q fnm
+  set -gx PATH "/home/gargoth/.local/state/fnm_multishells/13706_1714916667958/bin" $PATH;
+  set -gx FNM_RESOLVE_ENGINES "false";
+  set -gx FNM_ARCH "x64";
+  set -gx FNM_VERSION_FILE_STRATEGY "local";
+  set -gx FNM_NODE_DIST_MIRROR "https://nodejs.org/dist";
+  set -gx FNM_COREPACK_ENABLED "false";
+  set -gx FNM_MULTISHELL_PATH "/home/gargoth/.local/state/fnm_multishells/13706_1714916667958";
+  set -gx FNM_DIR "/home/gargoth/.local/share/fnm";
+  set -gx FNM_LOGLEVEL "info";
+end
+
+if type -q starship
+  starship init fish | source
+end
