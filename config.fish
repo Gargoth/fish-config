@@ -24,6 +24,7 @@ end
 
 # TODO: Bootstrap cmake for eza
 # TODO: Bootstrap gh-cli
+# TODO: Bootstrap fzf
 
 if not type -q eza
   cargo install --locked eza
@@ -157,7 +158,6 @@ switch (uname)
         abbr --add pc 'cd /mnt/c/Users/Gargo'
         abbr --add here 'explorer.exe .'
         abbr --add open 'wslview'
-        abbr --add fd 'fdfind'
     # MacOs
     case Darwin
         abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
@@ -179,4 +179,10 @@ end
 
 if type -q starship
   starship init fish | source
+end
+
+# bun
+if set -q BUN_INSTALL
+    set --export BUN_INSTALL "$HOME/.bun"
+    set --export PATH $BUN_INSTALL/bin $PATH
 end
