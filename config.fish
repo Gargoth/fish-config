@@ -75,7 +75,16 @@ set -x HOME ~
 
 # Functions
 function dfzf
-    cd (dirname (fzf))
+    cd (dirname (fzf-tmux -p))
+end
+
+function v
+  set -l file (fd --type f --hidden --exclude ".git|node_modules" | fzf-tmux -p)
+  if test $file
+    nvim $file
+  else
+    echo "No file selected."
+  end
 end
 
 function config
@@ -182,7 +191,10 @@ if type -q starship
 end
 
 # bun
-if set -q BUN_INSTALL
-    set --export BUN_INSTALL "$HOME/.bun"
-    set --export PATH $BUN_INSTALL/bin $PATH
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+
+# direnv
+if type -q direnv
+    direnv hook fish | source
 end
