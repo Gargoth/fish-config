@@ -1,5 +1,34 @@
-# Dependencies:
-# git, eza, batcat, speedtest-cli (python), gh-cli, pandoc, eisvogel
+# bootstrap fisher
+if not type -q fisher
+  curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+end
+
+# bootstrap nvm
+if not type -q nvm
+  fisher install jorgebucaran/nvm.fish
+end
+
+# Identify package manager
+if type -q dnf
+  set -l pkgmanager dnf
+end
+
+if type -q apt
+  set -l pkgmanager dnf
+end
+
+# bootstrap rustup
+if not type -q cargo
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && fish_add_path ~/.cargo/bin
+end
+
+# TODO: Bootstrap cmake for eza
+# TODO: Bootstrap gh-cli
+# TODO: Bootstrap fzf
+
+if not type -q eza
+  cargo install --locked eza
+end
 
 # Hide welcome message
 set fish_greeting
@@ -46,22 +75,23 @@ set -x HOME ~
 
 # Functions
 function dfzf
-    cd (dirname (fzf))
+    cd (dirname (fzf-tmux -p))
+end
+
+function v
+  set -l file (fd --type f --hidden --exclude ".git|node_modules" | fzf-tmux -p)
+  if test $file
+    nvim $file
+  else
+    echo "No file selected."
+  end
 end
 
 function config
     if test $argv
         cd ~/.config/$argv
     else
-        cd (ls -d ~/.config/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}')
-    end
-end
-
-function econfig
-    if test $argv
-        $EDITOR ~/.config/$argv
-    else
-        cd (ls -d ~/.config/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
+        cd (ls -d ~/.config/*/ | fzf-tmux -p)
     end
 end
 
@@ -69,25 +99,12 @@ function repos
     if test $argv
         cd ~/repos/$argv
     else
-        cd (ls -d ~/repos/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}')
-    end
-end
-
-function erepos
-    if test $argv
-        $EDITOR ~/repos/$argv
-    else
-        cd (ls -d ~/repos/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
+        cd (ls -d ~/repos/*/ | fzf-tmux -p)
     end
 end
 
 function c
     gcc $argv
-    ./a.out
-end
-
-function cthread
-    gcc $argv -lpthread
     ./a.out
 end
 
@@ -100,6 +117,14 @@ function gh-starred
     gh api user/starred --template '{{range .}}{{.full_name|color "yellow"}} ({{timeago .updated_at}}){{"\n"}}{{end}}'
 end
 
+function gsw
+    git branch | fzf-tmux -p | xargs git switch
+end
+
+function gch
+    git branch -r | fzf-tmux -p | xargs git checkout
+end
+
 # Abbreviations
 abbr --add ls 'eza --color=always --group-directories-first --icons'
 abbr --add la 'eza -a --color=always --group-directories-first --icons'
@@ -108,6 +133,7 @@ abbr --add lt 'eza -T --color=always --group-directories-first --icons --ignore-
 abbr --add ldir 'eza -d --color=always --group-directories-first --icons'
 abbr --add gs 'git status'
 abbr --add ga 'git add'
+abbr --add ga. 'git add .'
 abbr --add gc 'git commit'
 abbr --add gf 'git fetch'
 abbr --add gps 'git push'
@@ -115,7 +141,7 @@ abbr --add gpl 'git pull'
 abbr --add gd 'git diff'
 abbr --add gr 'git restore'
 abbr --add gl "git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all"
-abbr --add efish '$EDITOR ~/.config/fish/config.fish'
+abbr --add gswc 'git switch -c'
 abbr --add sfish 'source ~/.config/fish/config.fish'
 abbr --add .. 'cd ..'
 abbr --add ... 'cd ...'
@@ -129,7 +155,6 @@ switch (uname)
         abbr --add pc 'cd /mnt/c/Users/Gargo'
         abbr --add here 'explorer.exe .'
         abbr --add open 'wslview'
-        abbr --add fd 'fdfind'
     # MacOs
     case Darwin
         abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
@@ -137,5 +162,19 @@ switch (uname)
     case '*'
 end
 
-starship init fish | source
-zoxide init fish | source
+if type -q starship
+  starship init fish | source
+end
+
+if type -q zoxide
+  zoxide init fish | source
+end
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+
+# direnv
+if type -q direnv
+    direnv hook fish | source
+end
