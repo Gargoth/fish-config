@@ -117,6 +117,14 @@ function gh-starred
     gh api user/starred --template '{{range .}}{{.full_name|color "yellow"}} ({{timeago .updated_at}}){{"\n"}}{{end}}'
 end
 
+function gsw
+    git branch | fzf-tmux -p | xargs git switch
+end
+
+function gch
+    git branch -r | fzf-tmux -p | xargs git checkout
+end
+
 # Abbreviations
 abbr --add ls 'eza --color=always --group-directories-first --icons'
 abbr --add la 'eza -a --color=always --group-directories-first --icons'
@@ -133,6 +141,7 @@ abbr --add gpl 'git pull'
 abbr --add gd 'git diff'
 abbr --add gr 'git restore'
 abbr --add gl "git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all"
+abbr --add gswc 'git switch -c'
 abbr --add sfish 'source ~/.config/fish/config.fish'
 abbr --add .. 'cd ..'
 abbr --add ... 'cd ...'
