@@ -91,15 +91,7 @@ function config
     if test $argv
         cd ~/.config/$argv
     else
-        cd (ls -d ~/.config/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}')
-    end
-end
-
-function econfig
-    if test $argv
-        $EDITOR ~/.config/$argv
-    else
-        cd (ls -d ~/.config/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
+        cd (ls -d ~/.config/*/ | fzf-tmux -p)
     end
 end
 
@@ -107,25 +99,12 @@ function repos
     if test $argv
         cd ~/repos/$argv
     else
-        cd (ls -d ~/repos/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}')
-    end
-end
-
-function erepos
-    if test $argv
-        $EDITOR ~/repos/$argv
-    else
-        cd (ls -d ~/repos/*/ | fzf --preview 'eza -1 --color=always --group-directories-first --icons {}') && $EDITOR; cd -
+        cd (ls -d ~/repos/*/ | fzf-tmux -p)
     end
 end
 
 function c
     gcc $argv
-    ./a.out
-end
-
-function cthread
-    gcc $argv -lpthread
     ./a.out
 end
 
@@ -146,6 +125,7 @@ abbr --add lt 'eza -T --color=always --group-directories-first --icons --ignore-
 abbr --add ldir 'eza -d --color=always --group-directories-first --icons'
 abbr --add gs 'git status'
 abbr --add ga 'git add'
+abbr --add ga. 'git add .'
 abbr --add gc 'git commit'
 abbr --add gf 'git fetch'
 abbr --add gps 'git push'
@@ -153,7 +133,6 @@ abbr --add gpl 'git pull'
 abbr --add gd 'git diff'
 abbr --add gr 'git restore'
 abbr --add gl "git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all"
-abbr --add efish '$EDITOR ~/.config/fish/config.fish'
 abbr --add sfish 'source ~/.config/fish/config.fish'
 abbr --add .. 'cd ..'
 abbr --add ... 'cd ...'
