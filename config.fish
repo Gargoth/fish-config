@@ -170,6 +170,10 @@ if type -q zoxide
   zoxide init fish | source
 end
 
+if type -q fzf
+  fzf --fish | source
+end
+
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
