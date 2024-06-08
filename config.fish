@@ -178,3 +178,29 @@ set --export PATH $BUN_INSTALL/bin $PATH
 if type -q direnv
     direnv hook fish | source
 end
+
+# AI with Ollama
+
+function askcommand
+    if test $argv
+        ollama run phi3 "$argv. Your output must only contain the command and nothing else." | glow
+    else
+        echo "Must input prompt."
+    end
+end
+
+function llama3
+    if test $argv
+        ollama run llama3 $argv
+    else
+        echo "Must input prompt."
+    end
+end
+
+function phi3
+    if test $argv
+        ollama run phi3 $argv
+    else
+        echo "Must input prompt."
+    end
+end
