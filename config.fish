@@ -1,38 +1,75 @@
-# bootstrap fisher
+# Bootstrap fish plugins
 if not type -q fisher
-  curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+    curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 end
 
-# bootstrap nvm
 if not type -q nvm
-  fisher install jorgebucaran/nvm.fish
+    fisher install jorgebucaran/nvm.fish
+end
+
+# OS-specific configuration
+switch (uname)
+    # WSL
+    case Linux
+        abbr --add pc 'cd /mnt/c/Users/Gargo'
+        abbr --add here 'explorer.exe .'
+        abbr --add open wslview
+        # MacOs
+    case Darwin
+        abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
+        abbr --add sshpc 'ssh -t gargo@gargoth-acer \'ssh gargoth@localhost -p 2022\''
+        if not type -q brew
+            # NOTE: Command sourced from llama3, double-check if correct
+            bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/next.sh)"
+        end
+    case '*'
 end
 
 # Identify package manager
 if type -q dnf
-  set -l pkgmanager dnf
+    set pkgmanager dnf
 end
 
-if type -q apt
-  set -l pkgmanager dnf
+if type -q apt-get
+    set pkgmanager apt-get
 end
 
-# bootstrap rustup
+if type -q brew
+    set pkgmanager brew
+end
+
+# Bootstrap applications
 if not type -q cargo
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && fish_add_path ~/.cargo/bin
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && fish_add_path ~/.cargo/bin
 end
 
-# TODO: Bootstrap cmake for eza
-# TODO: Bootstrap gh-cli
-# TODO: Bootstrap fzf
+if not type -q make
+    $pkgmanager install make || echo "make not installed."
+end
+
+if not type -q cmake
+    $pkgmanager install cmake || echo "cmake not installed."
+end
+
+if not type -q git
+    $pkgmanager install git || echo "git not installed."
+end
+
+if not type -q gh
+    $pkgmanager install gh || echo "gh-cli not installed."
+end
+
+if not type -q fzf
+    $pkgmanager install fzf || echo "fzf not installed."
+end
 
 if not type -q eza
-  cargo install --locked eza
+    cargo install --locked eza || echo "eza not installed."
 end
 
 # Hide welcome message
 set fish_greeting
-set VIRTUAL_ENV_DISABLE_PROMPT "1"
+set VIRTUAL_ENV_DISABLE_PROMPT 1
 
 # Set to vi mode
 fish_vi_key_bindings
@@ -79,12 +116,12 @@ function dfzf
 end
 
 function v
-  set -l file (fd --type f --hidden -E "{.git,node_modules}" | fzf-tmux -p)
-  if test $file
-    nvim $file
-  else
-    echo "No file selected."
-  end
+    set -l file (fd --type f --hidden -E "{.git,node_modules}" | fzf-tmux -p)
+    if test $file
+        nvim $file
+    else
+        echo "No file selected."
+    end
 end
 
 function config
@@ -147,31 +184,18 @@ abbr --add .. 'cd ..'
 abbr --add ... 'cd ...'
 abbr --add .... 'cd ....'
 
-abbr --add tz 'tectonic -Z shell-escape'
 
-switch (uname)
-    # WSL
-    case Linux
-        abbr --add pc 'cd /mnt/c/Users/Gargo'
-        abbr --add here 'explorer.exe .'
-        abbr --add open 'wslview'
-    # MacOs
-    case Darwin
-        abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
-        abbr --add sshpc 'ssh -t gargo@gargoth-acer \'ssh gargoth@localhost -p 2022\''
-    case '*'
-end
-
+# App Shell Integrations
 if type -q starship
-  starship init fish | source
+    starship init fish | source
 end
 
 if type -q zoxide
-  zoxide init fish | source
+    zoxide init fish | source
 end
 
 if type -q fzf
-  fzf --fish | source
+    fzf --fish | source
 end
 
 # bun
@@ -184,7 +208,6 @@ if type -q direnv
 end
 
 # AI with Ollama
-
 function askcommand
     if test $argv
         ollama run phi3 "$argv. Your output must only contain the command and nothing else." | glow
