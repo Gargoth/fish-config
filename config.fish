@@ -9,19 +9,20 @@ end
 
 # OS-specific configuration
 switch (uname)
-    # WSL
     case Linux
+        # WSL
         abbr --add pc 'cd /mnt/c/Users/Gargo'
         abbr --add here 'explorer.exe .'
         abbr --add open wslview
-        # MacOs
     case Darwin
+        # MacOs
         abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
         abbr --add sshpc 'ssh -t gargo@gargoth-acer \'ssh gargoth@localhost -p 2022\''
         if not type -q brew
             # NOTE: Command sourced from llama3, double-check if correct
             bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/next.sh)"
         end
+        alias python="python3.11"     # To get around janky pip installs
     case '*'
 end
 
