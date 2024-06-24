@@ -29,37 +29,6 @@ set VIRTUAL_ENV_DISABLE_PROMPT 1
 # Set to vi mode
 fish_vi_key_bindings
 
-# Fish prompt
-function fish_mode_prompt
-    if test "$fish_key_bindings" != fish_default_key_bindings
-        set --local vi_mode_color
-        set --local vi_mode_symbol
-
-        set -l cyan (set_color -o cyan)
-        set -l yellow (set_color -o yellow)
-        set -l red (set_color -o red)
-        set -l green (set_color -o green)
-        set -l blue (set_color -o blue)
-        set -l normal (set_color normal)
-
-        switch $fish_bind_mode
-            case default
-                set vi_mode_color (set_color $fish_color_selection)
-                set vi_mode_symbol N
-            case insert
-                set vi_mode_color (set_color $fish_color_selection)
-                set vi_mode_symbol I
-            case replace replace_one
-                set vi_mode_color (set_color $fish_color_match)
-                set vi_mode_symbol R
-            case visual
-                set vi_mode_color (set_color $fish_color_match)
-                set vi_mode_symbol V
-        end
-        echo -es $green "[" $vi_mode_symbol "] " $green $USER $normal "@" $hostname " \x1b[0m"
-    end
-end
-
 # Set environment variables
 set -x EDITOR nvim
 set -x CLICOLOR 1
