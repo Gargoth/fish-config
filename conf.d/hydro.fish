@@ -135,3 +135,25 @@ set --query hydro_symbol_git_ahead || set --global hydro_symbol_git_ahead ↑
 set --query hydro_symbol_git_behind || set --global hydro_symbol_git_behind ↓
 set --query hydro_multiline || set --global hydro_multiline false
 set --query hydro_cmd_duration_threshold || set --global hydro_cmd_duration_threshold 1000
+
+set --global hydro_color_beginning brwhite
+set --global hydro_color_prompt white
+set --global hydro_color_error red
+set --global hydro_color_pwd white
+set --global hydro_color_git yellow
+set --global hydro_color_duration cyan
+set --global hydro_multiline true
+
+# OS-specific icon
+switch (uname)
+    case Linux
+      set --global hydro_prefix_beginning "󰌽 "
+    case Darwin
+      set --global hydro_prefix_beginning " "
+    case '*'
+      # TODO: Figure this out
+end
+
+set --global hydro_prefix_git " "
+# set --global hydro_prefix_pwd "  "
+set --global hydro_prefix_duration "󰅐 "
