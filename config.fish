@@ -18,54 +18,8 @@ switch (uname)
         # MacOs
         abbr --add tailscale '/Applications/Tailscale.app/Contents/MacOS/Tailscale'
         abbr --add sshpc 'ssh -t gargo@gargoth-acer \'ssh gargoth@localhost -p 2022\''
-        if not type -q brew
-            # NOTE: Command sourced from llama3, double-check if correct
-            bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/next.sh)"
-        end
         alias python="python3.11"     # To get around janky pip installs
     case '*'
-end
-
-# Identify package manager
-if type -q dnf
-    set pkgmanager dnf
-end
-
-if type -q apt-get
-    set pkgmanager apt-get
-end
-
-if type -q brew
-    set pkgmanager brew
-end
-
-# Bootstrap applications
-if not type -q cargo
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && fish_add_path ~/.cargo/bin
-end
-
-if not type -q make
-    $pkgmanager install make || echo "make not installed."
-end
-
-if not type -q cmake
-    $pkgmanager install cmake || echo "cmake not installed."
-end
-
-if not type -q git
-    $pkgmanager install git || echo "git not installed."
-end
-
-if not type -q gh
-    $pkgmanager install gh || echo "gh-cli not installed."
-end
-
-if not type -q fzf
-    $pkgmanager install fzf || echo "fzf not installed."
-end
-
-if not type -q eza
-    cargo install --locked eza || echo "eza not installed."
 end
 
 # Hide welcome message
