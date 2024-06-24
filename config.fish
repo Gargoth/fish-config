@@ -122,6 +122,10 @@ if type -q fzf
     fzf --fish | source
 end
 
+if type -q gh
+  gh completion -s fish | source
+end
+
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
