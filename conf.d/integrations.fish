@@ -8,7 +8,7 @@ if type -q zoxide
 end
 
 if type -q fzf
-    fzf --fish | source
+    fish_user_key_bindings
 end
 
 if type -q gh
