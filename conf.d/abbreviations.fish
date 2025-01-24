@@ -15,7 +15,8 @@ abbr --add gps 'git push'
 abbr --add gpl 'git pull'
 abbr --add gd 'git diff'
 abbr --add gr 'git restore'
-abbr --add gl "git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all"
+abbr --add gl 'git log --decorate --oneline --graph --branches'
+# abbr --add gl "git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%an%C(reset)%C(bold yellow)%d%C(reset) %C(dim white)- %s%C(reset)' --all"
 abbr --add gswc 'git switch -c'
 
 # fish
