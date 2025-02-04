@@ -27,3 +27,6 @@ abbr --add tm 'tmux'
 abbr --add tma 'tmux a'
 abbr --add tmks 'tmux kill-server'
 abbr --add tms 'tmux list-sessions'
+
+# fd
+abbr --add fd 'fdfind'
